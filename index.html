@@ -84,7 +84,18 @@
       visibility:hidden;
     }
 
-    /* Title layer */
+    .intro::before{
+      content:"";
+      position:absolute;
+      inset:-30%;
+      background:
+        radial-gradient(600px 240px at 50% 50%, rgba(31,156,240,0.18), transparent 65%),
+        radial-gradient(500px 220px at 55% 55%, rgba(0,90,156,0.18), transparent 68%),
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.04), rgba(0,0,0,0.94));
+      transform:scale(1.05);
+      z-index:0;
+    }
+
     .intro-inner{
       position:relative;
       text-align:center;
@@ -98,7 +109,6 @@
       to { opacity:1; transform:translateY(0); }
     }
 
-    /* One-word brand (VISTA bold, Geomatics regular) */
     .brand-word{
       font-family:"Montserrat", sans-serif;
       text-transform:uppercase;
@@ -147,7 +157,6 @@
       100%{ transform:translateX(460%); }
     }
 
-    /* Bars overlay (Davies-ish wipe) */
     .wipe{
       position:absolute;
       inset:0;
@@ -160,13 +169,12 @@
       opacity:1;
     }
     .wipe .bar{
-      align-self:stretch;
       height:100%;
       background:rgba(255,255,255,0.06);
       border-left:1px solid rgba(255,255,255,0.06);
       border-right:1px solid rgba(255,255,255,0.03);
       transform:translateY(0);
-      will-change:transform, opacity;
+      will-change:transform;
       position:relative;
       overflow:hidden;
     }
@@ -182,7 +190,6 @@
       opacity:0.9;
     }
 
-    /* When we start wiping away: bars slide down with stagger, title fades/scales */
     .intro.wiping .intro-inner{
       animation:none;
       opacity:1;
@@ -195,11 +202,9 @@
       animation:barWipe 0.9s cubic-bezier(.2,.8,.2,1) forwards;
     }
     @keyframes barWipe{
-      0%{ transform:translateY(0); opacity:1; }
-      100%{ transform:translateY(110%); opacity:1; }
+      0%{ transform:translateY(0); }
+      100%{ transform:translateY(110%); }
     }
-
-    /* stagger delays */
     .wipe .bar:nth-child(1){ animation-delay:0.00s; }
     .wipe .bar:nth-child(2){ animation-delay:0.05s; }
     .wipe .bar:nth-child(3){ animation-delay:0.10s; }
@@ -213,20 +218,7 @@
     .wipe .bar:nth-child(11){ animation-delay:0.50s; }
     .wipe .bar:nth-child(12){ animation-delay:0.55s; }
 
-    /* Intro background glow */
-    .intro::before{
-      content:"";
-      position:absolute;
-      inset:-30%;
-      background:
-        radial-gradient(600px 240px at 50% 50%, rgba(31,156,240,0.18), transparent 65%),
-        radial-gradient(500px 220px at 55% 55%, rgba(0,90,156,0.18), transparent 68%),
-        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.04), rgba(0,0,0,0.94));
-      transform:scale(1.05);
-      z-index:0;
-    }
-
-    /* ===== Main portal ===== */
+    /* ===== Simple portal layout (like original) ===== */
     .wrap{
       position:relative;
       z-index:1;
@@ -238,7 +230,7 @@
     }
 
     .card{
-      width:min(980px, 100%);
+      width:min(860px, 100%);
       border-radius:28px;
       border:1px solid var(--stroke);
       background:linear-gradient(180deg, rgba(10,16,26,0.78), rgba(10,16,26,0.62));
@@ -248,19 +240,12 @@
     }
 
     .card-head{
-      padding:30px 30px 18px;
+      padding:28px 28px 18px;
       border-bottom:1px solid var(--stroke2);
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
       gap:18px;
-    }
-
-    .brand-lockup{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      min-width:240px;
     }
 
     .brand-mini{
@@ -277,6 +262,7 @@
     .brand-mini .geomatics{ font-weight:400; }
 
     .tagline{
+      margin-top:10px;
       color:var(--muted);
       font-size:0.95rem;
       line-height:1.35;
@@ -303,52 +289,29 @@
     }
 
     .card-body{
-      padding:24px 30px 28px;
-      display:grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap:22px;
-    }
-    @media (max-width: 860px){
-      .card-body{ grid-template-columns: 1fr; }
-      .chip-row{ justify-content:flex-start; }
+      padding:22px 28px 26px;
     }
 
-    .panel{
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.03);
-      border-radius:22px;
-      padding:18px;
-      box-shadow: var(--shadow2);
-    }
-    .panel h2{
-      margin:0 0 10px;
-      font-size:1.05rem;
-      letter-spacing:0.08em;
-      text-transform:uppercase;
-      color:rgba(255,255,255,0.92);
-    }
-    .panel p{
-      margin:0 0 16px;
-      color:rgba(255,255,255,0.70);
-      line-height:1.5;
-      font-size:0.95rem;
-    }
-
-    .grid{
+    .btn-grid{
       display:grid;
       grid-template-columns:repeat(3, minmax(0, 1fr));
-      gap:12px;
+      gap:14px;
     }
-    @media (max-width: 860px){ .grid{ grid-template-columns:repeat(2, minmax(0, 1fr)); } }
-    @media (max-width: 520px){ .grid{ grid-template-columns:1fr; } }
+    @media (max-width: 760px){
+      .btn-grid{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+      .chip-row{ justify-content:flex-start; }
+    }
+    @media (max-width: 520px){
+      .btn-grid{ grid-template-columns:1fr; }
+    }
 
     .btn{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:14px;
-      padding:14px 16px;
-      border-radius:16px;
+      padding:16px 16px;
+      border-radius:18px;
       border:1px solid rgba(255,255,255,0.10);
       background:linear-gradient(120deg, rgba(31,156,240,0.92), rgba(0,90,156,0.92), rgba(31,156,240,0.92));
       background-size:200% 200%;
@@ -359,6 +322,7 @@
       text-transform:uppercase;
       box-shadow:0 14px 30px rgba(0,0,0,0.70);
       transition: transform .18s ease, box-shadow .18s ease, background-position .25s ease, border-color .18s ease;
+      min-height:62px;
     }
     .btn:hover{
       transform:translateY(-2px);
@@ -370,37 +334,12 @@
       opacity:0.95;
       transform:translateX(0);
       transition:transform .18s ease;
+      letter-spacing:0;
     }
     .btn:hover .arrow{ transform:translateX(2px); }
 
-    .link-list{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      margin-top:10px;
-    }
-    .link{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(0,0,0,0.20);
-      color:rgba(255,255,255,0.85);
-      text-decoration:none;
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-    }
-    .link:hover{
-      transform:translateY(-1px);
-      border-color:rgba(255,255,255,0.12);
-      background:rgba(0,0,0,0.28);
-    }
-    .link span{ letter-spacing:0.08em; text-transform:uppercase; font-size:0.82rem; }
-    .link em{ font-style:normal; opacity:0.8; }
-
     .card-foot{
-      padding:16px 30px 22px;
+      padding:14px 28px 18px;
       border-top:1px solid var(--stroke2);
       display:flex;
       gap:12px;
@@ -410,19 +349,6 @@
       color:rgba(255,255,255,0.62);
       font-size:0.86rem;
     }
-
-    .foot-brand{
-      font-family:"Montserrat", sans-serif;
-      text-transform:uppercase;
-      letter-spacing:0.18em;
-      color:rgba(255,255,255,0.62);
-      text-decoration:none;
-      display:inline-flex;
-      white-space:nowrap;
-      gap:0;
-    }
-    .foot-brand .vista{ font-weight:700; }
-    .foot-brand .geomatics{ font-weight:400; }
 
     /* Go top */
     #goTop{
@@ -454,7 +380,7 @@
   <div class="bg-overlay" aria-hidden="true"></div>
   <canvas class="cursor-trail" id="trail" aria-hidden="true"></canvas>
 
-  <!-- Intro / bar wipe -->
+  <!-- Intro -->
   <div class="intro" id="intro" aria-label="Intro">
     <div class="wipe" aria-hidden="true">
       <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
@@ -471,16 +397,16 @@
     </div>
   </div>
 
-  <!-- Portal -->
+  <!-- Simple portal -->
   <main class="wrap">
     <section class="card" aria-label="Forms Portal">
       <header class="card-head">
-        <div class="brand-lockup">
+        <div>
           <div class="brand-mini" aria-label="VISTAGEOMATICS">
             <span class="vista">VISTA</span><span class="geomatics">GEOMATICS</span>
           </div>
           <div class="tagline">
-            Quick access to internal tools for field crews and office staff. Choose a category to continue.
+            Select a category to continue.
           </div>
         </div>
 
@@ -492,33 +418,16 @@
       </header>
 
       <div class="card-body">
-        <div class="panel">
-          <h2>Categories</h2>
-          <p>Select a section to open the portal page for that category.</p>
-
-          <div class="grid">
-            <a class="btn" href="survey.html"><span>Survey</span><span class="arrow">→</span></a>
-            <a class="btn" href="safety.html"><span>Safety</span><span class="arrow">→</span></a>
-            <a class="btn" href="hr.html"><span>HR</span><span class="arrow">→</span></a>
-          </div>
-        </div>
-
-        <div class="panel">
-          <h2>Quick Links</h2>
-          <p>Optional shortcuts and internal resources.</p>
-
-          <div class="link-list">
-            <a class="link" href="forms.html"><span>All Forms</span><em>Open</em></a>
-            <a class="link" href="https://vistageomatics.github.io/Hidden-Game/"><span>Hidden Game</span><em>Launch</em></a>
-          </div>
+        <div class="btn-grid">
+          <a class="btn" href="survey.html"><span>Survey</span><span class="arrow">→</span></a>
+          <a class="btn" href="safety.html"><span>Safety</span><span class="arrow">→</span></a>
+          <a class="btn" href="hr.html"><span>HR</span><span class="arrow">→</span></a>
         </div>
       </div>
 
       <footer class="card-foot">
-        <div>Internal use only, ensure you are using the latest links.</div>
-        <a class="foot-brand" href="https://vistageomatics.github.io/Hidden-Game/" aria-label="Vista Geomatics">
-          <span class="vista">VISTA</span><span class="geomatics">GEOMATICS</span>
-        </a>
+        <div>Internal use only.</div>
+        <div style="opacity:.65; letter-spacing:.10em; text-transform:uppercase; font-size:.82rem;">VISTAGEOMATICS</div>
       </footer>
     </section>
   </main>
@@ -531,9 +440,8 @@
       const intro = document.getElementById("intro");
       const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      const minShowMs = prefersReduced ? 250 : 1050; // how long title stays before wipe begins
-      const wipeStartMs = prefersReduced ? 260 : 1100; // start wipe
-      const hideAfterMs = prefersReduced ? 520 : 1750; // hide intro after wipe finishes
+      const wipeStartMs = prefersReduced ? 260 : 1100;
+      const hideAfterMs = prefersReduced ? 520 : 1750;
       const safetyMaxMs = prefersReduced ? 900 : 2600;
 
       function startWipe(){
@@ -545,19 +453,12 @@
         intro.classList.add("hide");
       }
 
-      // Begin wipe shortly after minimum show time
       setTimeout(startWipe, wipeStartMs);
-
-      // Hide after wipe sequence
       setTimeout(hideIntro, hideAfterMs);
-
-      // If load is slow, still proceed
       window.addEventListener("load", () => {
-        setTimeout(startWipe, Math.max(0, minShowMs - 0));
-        setTimeout(hideIntro, Math.max(0, hideAfterMs - 0));
+        setTimeout(startWipe, 0);
+        setTimeout(hideIntro, hideAfterMs);
       });
-
-      // Safety timeout
       setTimeout(hideIntro, safetyMaxMs);
     })();
 
