@@ -57,6 +57,15 @@
       background:linear-gradient(to bottom,rgba(0,0,0,.25),rgba(0,0,0,.8));
     }
 
+    /* Laser (soft, same vibe as other pages) */
+    canvas#trail{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:50;
+      opacity:.85;
+    }
+
     .wrap{
       min-height:100vh;
       display:flex;
@@ -108,6 +117,53 @@
       text-transform:uppercase;
       opacity:.85;
       font-size:.85rem;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    /* Rotor icon beside title */
+    .rotor-icon{
+      width:16px;
+      height:16px;
+      border-radius:999px;
+      position:relative;
+      flex:0 0 16px;
+      opacity:.9;
+      box-shadow:0 0 0 1px rgba(255,255,255,.18) inset, 0 0 18px rgba(31,156,240,.18);
+    }
+    .rotor-icon::before{
+      content:"";
+      position:absolute;
+      inset:2px;
+      border-radius:999px;
+      background:radial-gradient(circle at 35% 30%, rgba(255,255,255,.22), rgba(31,156,240,.10) 45%, rgba(0,0,0,.15) 70%);
+      box-shadow:0 0 0 1px rgba(255,255,255,.10) inset;
+    }
+    .rotor-icon::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:50%;
+      width:18px;
+      height:18px;
+      transform:translate(-50%,-50%);
+      border-radius:999px;
+      background:
+        conic-gradient(from 0deg,
+          transparent 0 18%,
+          rgba(31,156,240,.22) 18% 24%,
+          transparent 24% 50%,
+          rgba(31,156,240,.14) 50% 56%,
+          transparent 56% 82%,
+          rgba(31,156,240,.18) 82% 88%,
+          transparent 88% 100%);
+      filter:blur(0.6px);
+      animation:rotorIconSpin 1.15s linear infinite;
+      opacity:.9;
+    }
+    @keyframes rotorIconSpin{
+      to{ transform:translate(-50%,-50%) rotate(360deg); }
     }
 
     .btn-grid{
@@ -122,6 +178,7 @@
       position:relative;
       isolation:isolate;
       padding:18px;
+      padding-left:54px; /* room for icon */
       border-radius:18px;
       border:1px solid rgba(255,255,255,.14);
       background:rgba(0,0,0,.25);
@@ -185,9 +242,69 @@
 
     @keyframes rotorSpin{ to{ transform:rotate(360deg); } }
 
+    /* Document icons */
+    .btn .doc-icon{
+      position:absolute;
+      left:18px;
+      top:50%;
+      width:18px;
+      height:18px;
+      transform:translateY(-50%);
+      opacity:.9;
+      filter:drop-shadow(0 0 6px rgba(31,156,240,.22));
+    }
+
+    /* ⚖️ Legislation */
+    .icon-law .doc-icon{
+      background:
+        linear-gradient(#fff,#fff) center 3px / 2px 12px no-repeat,
+        linear-gradient(#fff,#fff) left 2px top 7px / 6px 2px no-repeat,
+        linear-gradient(#fff,#fff) right 2px top 7px / 6px 2px no-repeat;
+      border-radius:2px;
+    }
+
+    /* ✅ SOP checklist */
+    .icon-sop .doc-icon{
+      background:
+        linear-gradient(#fff,#fff) 4px 4px / 10px 2px no-repeat,
+        linear-gradient(#fff,#fff) 4px 8px / 10px 2px no-repeat,
+        linear-gradient(#fff,#fff) 4px 12px / 10px 2px no-repeat,
+        radial-gradient(circle at 2px 5px, #1f9cf0 2px, transparent 3px),
+        radial-gradient(circle at 2px 9px, #1f9cf0 2px, transparent 3px),
+        radial-gradient(circle at 2px 13px, #1f9cf0 2px, transparent 3px);
+      border-radius:2px;
+    }
+
+    /* 🪪 Certificate / credential */
+    .icon-cert .doc-icon{
+      background:
+        linear-gradient(#fff,#fff) center 5px / 12px 2px no-repeat,
+        radial-gradient(circle at center 9px, #fff 3px, transparent 4px),
+        linear-gradient(#fff,#fff) center 14px / 10px 2px no-repeat;
+      border-radius:3px;
+    }
+
+    /* 🧭 Nav Drone Portal */
+
+    .icon-portal .doc-icon{
+      background:
+        radial-gradient(circle at 9px 9px, rgba(31,156,240,.28) 0 5px, transparent 6px),
+        linear-gradient(#fff,#fff) center 2px / 2px 14px no-repeat,
+        linear-gradient(#fff,#fff) 2px center / 14px 2px no-repeat;
+      border-radius:999px;
+    }
+
+    .btn:hover .doc-icon{
+      filter:
+        drop-shadow(0 0 10px rgba(31,156,240,.40))
+        drop-shadow(0 0 18px rgba(31,156,240,.22));
+    }
+
     @media (prefers-reduced-motion: reduce){
       .btn::after{ animation:none; }
+      .rotor-icon::after{ animation:none; }
       .btn, .btn:hover{ transition:none; }
+      canvas#trail{ display:none; }
     }
   </style>
 </head>
@@ -210,69 +327,169 @@
   </div>
   <div class="bg-overlay"></div>
 
+  <!-- Laser -->
+  <canvas id="trail"></canvas>
+
   <main class="wrap">
     <section class="card">
       <header class="card-head">
         <div class="brand">
           <span class="vista">VISTA</span><span class="geomatics">GEOMATICS</span>
         </div>
-
-        <!-- Point this back to your Survey page, or index.html if you prefer -->
         <a class="back" href="survey.html">Back</a>
       </header>
 
       <div class="card-body">
-        <div class="section-title">Drone</div>
+        <div class="section-title">
+          <span class="rotor-icon" aria-hidden="true"></span>
+          Drone
+        </div>
 
         <div class="btn-grid">
-          <a class="btn"
+          <a class="btn icon-law"
              href="https://tc.canada.ca/en/aviation/drone-safety/learn-rules-you-fly-your-drone/flying-your-drone-safely-legally"
              target="_blank" rel="noopener">
-            Legislation →
+            <span class="doc-icon" aria-hidden="true"></span>
+            Legislation <span aria-hidden="true">→</span>
           </a>
 
-          <a class="btn"
+          <a class="btn icon-sop"
              href="https://drive.google.com/file/d/1Pk76Gl4AUixewpNGTYpwHtMUcc-9XaRo/view?usp=sharing"
              target="_blank" rel="noopener">
-            Safe Operating Procedure →
+            <span class="doc-icon" aria-hidden="true"></span>
+            Safe Operating Procedure <span aria-hidden="true">→</span>
           </a>
 
-          <a class="btn"
+          <a class="btn icon-cert"
              href="https://drive.google.com/file/d/1-cyRuYJRwpSxt_JtKyPIBjiFwfSLZixk/view?usp=sharing"
              target="_blank" rel="noopener">
-            Certificate of Registration →
+            <span class="doc-icon" aria-hidden="true"></span>
+            Certificate of Registration <span aria-hidden="true">→</span>
+          </a>
+
+          <a class="btn icon-portal"
+             href="https://portal.navdrone.ca/auth/realms/OperatorPortal/protocol/openid-connect/auth?client_id=NavcanPortal&redirect_uri=https%3A%2F%2Fportal.navdrone.ca%2F%23%2F&state=7700efd2-2f24-4afb-806d-1f3e76fa7098&response_mode=fragment&response_type=code&scope=openid&nonce=770fd503-efa4-4d36-982c-5416285a57e5&code_challenge=D1gVmkx7kvRpGlUWDTC1zeqe6enInz2C-_tkAYgzWgQ&code_challenge_method=S256"
+             target="_blank" rel="noopener">
+            <span class="doc-icon" aria-hidden="true"></span>
+            Nav Drone Portal <span aria-hidden="true">→</span>
           </a>
         </div>
       </div>
     </section>
   </main>
 
-<script>
-  // Intro shows only once per session, tap twice to skip
-  (function(){
-    const intro = document.getElementById("intro");
-    const vid   = document.getElementById("dronesIntro");
-    const KEY   = "vg_drones_intro_seen";
+  <script>
+    // Intro shows only once per session, tap twice to skip
+    (function(){
+      const intro = document.getElementById("intro");
+      const vid   = document.getElementById("dronesIntro");
+      const KEY   = "vg_drones_intro_seen";
 
-    if(sessionStorage.getItem(KEY)){
-      intro.classList.add("hide");
-      return;
-    }
-    sessionStorage.setItem(KEY,"1");
-
-    let taps = 0;
-    document.addEventListener("click", ()=>{
-      taps++;
-      setTimeout(()=>taps=0, 300);
-      if(taps >= 2){
+      if(sessionStorage.getItem(KEY)){
         intro.classList.add("hide");
-        try{ vid.pause(); }catch(e){}
+        return;
       }
-    }, { passive:true });
+      sessionStorage.setItem(KEY,"1");
 
-    setTimeout(()=> intro.classList.add("hide"), 5000);
-  })();
-</script>
+      let taps = 0;
+      document.addEventListener("click", ()=>{
+        taps++;
+        setTimeout(()=>taps=0, 300);
+        if(taps >= 2){
+          intro.classList.add("hide");
+          try{ vid.pause(); }catch(e){}
+        }
+      }, { passive:true });
+
+      setTimeout(()=> intro.classList.add("hide"), 5000);
+    })();
+  </script>
+
+  <script>
+    // Soft laser mouse (non-additive, no black fade, low intensity)
+    (function(){
+      const canvas = document.getElementById("trail");
+      if(!canvas) return;
+
+      const ctx = canvas.getContext("2d", { alpha:true });
+      let w=0,h=0,dpr=1;
+
+      function resize(){
+        dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+        w = canvas.width  = Math.floor(window.innerWidth * dpr);
+        h = canvas.height = Math.floor(window.innerHeight * dpr);
+        canvas.style.width = window.innerWidth + "px";
+        canvas.style.height = window.innerHeight + "px";
+        ctx.setTransform(1,0,0,1,0,0);
+        ctx.clearRect(0,0,w,h);
+      }
+      window.addEventListener("resize", resize, { passive:true });
+      resize();
+
+      const pts = [];
+      const maxPts = 22;
+
+      // keep current cursor so it feels "present" without being intense
+      let cx = (window.innerWidth/2) * dpr;
+      let cy = (window.innerHeight*0.35) * dpr;
+
+      function pushPoint(x,y){
+        pts.push({ x, y, a:1 });
+        while(pts.length > maxPts) pts.shift();
+      }
+
+      function tick(){
+        ctx.clearRect(0,0,w,h);
+
+        // add a point at the cursor each frame (constant, but gentle)
+        pushPoint(cx, cy);
+
+        // draw soft glow points
+        for(let i=0;i<pts.length;i++){
+          const p = pts[i];
+          p.a *= 0.94;
+
+          const r = 14 * p.a;               // smaller
+          const a1 = 0.12 * p.a;            // lower intensity
+          const a2 = 0.05 * p.a;
+
+          const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r);
+          g.addColorStop(0, `rgba(31,156,240,${a1})`);
+          g.addColorStop(0.55, `rgba(31,156,240,${a2})`);
+          g.addColorStop(1, "rgba(31,156,240,0)");
+
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, r, 0, Math.PI*2);
+          ctx.fill();
+        }
+
+        // prune
+        for(let i=pts.length-1;i>=0;i--){
+          if(pts[i].a < 0.03) pts.splice(i,1);
+        }
+
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+
+      function setCursor(x,y){
+        cx = x * dpr;
+        cy = y * dpr;
+      }
+
+      window.addEventListener("pointermove", (e)=>{
+        if(e.pointerType === "mouse" || e.pointerType === "pen"){
+          setCursor(e.clientX, e.clientY);
+        }
+      }, { passive:true });
+
+      window.addEventListener("touchmove", (e)=>{
+        const t = e.touches && e.touches[0];
+        if(t) setCursor(t.clientX, t.clientY);
+      }, { passive:true });
+    })();
+  </script>
 
 </body>
 </html>
